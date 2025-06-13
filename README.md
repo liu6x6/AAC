@@ -15,4 +15,4 @@ for test My AudioStreaming and h264 audio stream
 * start [WebDriverAgent](https://github.com/liu6x6/WebDriverAgent) first
 * iproxy 10001 10001
 * node ./video.js
-* open  ./video/h264.html then you can see the video from the iOS devices
+* open  ./video/h264.html from your broswer then you can see the video from the iOS devices
