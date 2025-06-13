@@ -1,0 +1,15 @@
+{
+  "name": "aac",
+  "version": "1.0.0",
+  "description": "test UFTM audiostream",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "xiao",
+  "license": "ISC",
+  "dependencies": {
+    "hexy": "^0.3.5",
+    "ws": "^8.11.0"
+  }
+}

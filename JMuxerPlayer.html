@@ -1,0 +1,28 @@
+
+const JMuxer = require('jmuxer');
+const jmuxer = new JMuxer({
+    debug: true
+});
+
+/*
+Stream in Object mode. Please check the example file for more details
+*/
+let h264_feeder = getFeederStreamSomehow();
+let http_or_ws_or_any = getWritterStreamSomehow();
+h264_feeder.pipe(jmuxer.createStream()).pipe(http_or_ws_or_any);
+
+
+// OR another way
+
+const jmuxer = new JMuxer({
+	onData: function(data) {
+		res.write(data); // send data to client
+	}
+    debug: true
+});
+
+jmuxer.feed({
+	audio: audio,
+	video: video,
+	duration: duration
+}); // feed data

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H264 Video Player</title>
+</head>
+<body>
+
+    <input type="file" id="videoInput" accept="video/h264" />
+    <video id="outputVideo" controls></video>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg.js/4.1.0/ffmpeg.min.js"></script>
+    <script>
+        const videoInput = document.getElementById('videoInput');
+        const outputVideo = document.getElementById('outputVideo');
+
+        videoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type === 'video/h264') {
+                loadAndPlayH264(file);
+            }
+        });
+
+        function loadAndPlayH264(file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const data = new Uint8Array(reader.result);
+
+                // Use ffmpeg.js to convert H264 to MP4
+                const result = ffmpeg({
+                    MEMFS: [{ name: 'input.h264', data }],
+                    arguments: ['-i', 'input.h264', '-c:v', 'libx264', '-f', 'mp4', 'output.mp4']
+                });
+
+                const outputFile = result.MEMFS[0];
+                const outputBlob = new Blob([outputFile.data], { type: 'video/mp4' });
+
+                // Create a URL for the video blob and set it as the video source
+                const outputUrl = URL.createObjectURL(outputBlob);
+                outputVideo.src = outputUrl;
+                outputVideo.load();  // Reload the video element to play the new source
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+</body>
+</html>
